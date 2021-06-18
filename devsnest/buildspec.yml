@@ -1,9 +1,0 @@
-version: 0.2
-
-phases:
-  build:
-    commands:
-      - cd devsnest
-      - docker build -t prachipathrayan/devsnestbackend .
-      - docker login --username=${username} --password=${password}
-      - docker push prachipathrayan/devsnestbackend
