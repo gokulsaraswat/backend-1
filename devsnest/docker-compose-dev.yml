@@ -1,12 +1,15 @@
 version: "3"
 services:
-  "backend":
+  backend:
     build: .
     ports:
       - "8000:3000"
     container_name: backend
+    volumes: 
+      - "./:/app"
     env_file:
-      - '.env'
+      - '.dev.env'
+
   mysql:
     image: mysql
     container_name: mysql
@@ -16,9 +19,9 @@ services:
       MYSQL_DATABASE: devsnest
       MYSQL_USER: user
       MYSQL_PASSWORD: password
-
     ports:
       - "3308:3306"
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: pma

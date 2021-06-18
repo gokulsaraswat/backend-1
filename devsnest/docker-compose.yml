@@ -1,12 +1,13 @@
 version: "3"
 services:
-  "backend":
+  backend:
     image: prachipathrayan/devsnestbackend
     ports:
       - "8000:3000"
     container_name: backend
     env_file:
       - '.env'
+
   redis:
     image: redis:alpine
     container_name: redis
