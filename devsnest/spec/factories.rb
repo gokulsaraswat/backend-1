@@ -1,10 +1,25 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
+  factory :judgeztoken do
+    
+  end
+
+  factory :testcase do
+    
+  end
+
+  factory :algo_submission do
+    
+  end
+
+  factory :challenge do
+    
+  end
+
   factory :internal_feedback do
-    sequence(:issue_type) { |n| "Internal #{n}" }
-    sequence(:issue_described) { 'This is the description' }
-    sequence(:feedback) { 'feedback for the team' }
+    sequence(:issue_details) { 'This is the description' }
+    sequence(:solution) { 'feedback for the team' }
     sequence(:issue_scale) { rand(1..10) }
   end
 
@@ -86,5 +101,9 @@ FactoryBot.define do
 
   factory :notification_bot do
     sequence(:bot_username) { |n| n }
+  end
+
+  factory :certification do
+    sequence(:user_id) { |n| n }
   end
 end

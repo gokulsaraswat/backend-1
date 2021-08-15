@@ -1,0 +1,2 @@
+class Judgeztoken < ApplicationRecord
+end

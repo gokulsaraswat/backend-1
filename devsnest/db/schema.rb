@@ -10,8 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_14_160610) do
+ActiveRecord::Schema.define(version: 2021_08_24_092401) do
 
+  create_table "algo_challenges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
+    t.string "topic"
+    t.integer "difficulty"
+    t.string "name"
+    t.text "question_body"
+    t.string "sample_test_case"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "algo_submissions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "challenge_id"
+    t.text "source_code"
+    t.integer "language_id"
+    t.json "test_cases"
+    t.integer "total_test_cases", default: 0
+    t.integer "passed_test_cases", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.boolean "is_submitted"
+    t.index ["user_id", "challenge_id"], name: "index_algo_submissions_on_user_id_and_challenge_id"
+  end
+  
   create_table "audits", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
@@ -59,6 +83,34 @@ ActiveRecord::Schema.define(version: 2021_09_14_160610) do
     t.string "name", default: "", null: false
     t.integer "members_count"
     t.integer "student_mentor_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "challenges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
+    t.integer "topic"
+    t.integer "difficulty"
+    t.string "name"
+    t.text "question_body"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "certifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "certificate_type"
+    t.string "cuid", default: "K1ySnJJmN2M"
+    t.string "title", default: ""
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id", "certificate_type"], name: "index_certificates_on_user_id_and_certificate_type", unique: true
+  end
+
+  create_table "challenges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
+    t.integer "topic"
+    t.integer "difficulty"
+    t.string "name"
+    t.text "question_body"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -150,14 +202,30 @@ ActiveRecord::Schema.define(version: 2021_09_14_160610) do
   create_table "internal_feedbacks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
     t.bigint "user_id"
     t.boolean "is_resolved", default: false
-    t.string "issue_type", default: ""
-    t.text "issue_described"
-    t.text "feedback"
+    t.string "problems_faced", default: ""
+    t.text "issue_details"
+    t.text "solution"
     t.integer "issue_scale", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "user_name"
+    t.string "feedback_type"
+    t.integer "group_activity_rating"
+    t.integer "TL_rating"
+    t.string "VTL_rating"
+    t.text "group_morale"
+    t.text "obstacles_faced"
+    t.string "BL_availability"
+    t.integer "BL_rating"
+    t.text "comments_on_BL"
     t.index ["user_id"], name: "index_internal_feedbacks_on_user_id"
+  end
+
+  create_table "judgeztokens", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
+    t.integer "submission_id"
+    t.string "token"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "jwt_blacklists", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
@@ -214,6 +282,15 @@ ActiveRecord::Schema.define(version: 2021_09_14_160610) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id", "content_id"], name: "index_submissions_on_user_id_and_content_id", unique: true
+  end
+
+  create_table "testcases", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
+    t.integer "challenge_id"
+    t.boolean "is_sample"
+    t.string "input_path"
+    t.string "output_path"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
