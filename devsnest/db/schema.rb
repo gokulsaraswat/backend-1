@@ -168,7 +168,7 @@ ActiveRecord::Schema.define(version: 2021_09_09_094054) do
   end
 
   create_table "notification_bots", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
-    t.integer "user_id"
+    t.json "user_id"
     t.integer "bot_token"
     t.text "message"
     t.datetime "created_at", precision: 6, null: false
