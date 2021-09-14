@@ -63,10 +63,6 @@ ActiveRecord::Schema.define(version: 2021_09_13_070035) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "bots", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
-    t.string "bot_token"
-  end
-
   create_table "colleges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
     t.string "name"
   end
@@ -171,8 +167,14 @@ ActiveRecord::Schema.define(version: 2021_09_13_070035) do
     t.text "template"
   end
 
+  create_table "notification_bots", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
+    t.string "bot_token"
+  end
+
   create_table "notifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
     t.text "message"
+    t.integer "bot_id"
+    t.json "users"
     t.boolean "is_sent", default: false
     t.date "date_to_be_sent"
     t.datetime "created_at", precision: 6, null: false
