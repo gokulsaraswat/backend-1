@@ -1,10 +1,10 @@
 name: Ruby
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     env:
       MYSQL_NAME: devsnest_test
@@ -16,7 +16,6 @@ jobs:
       REDIS_DB: devsnest_lb_test
       REDIS_URL: redis://127.0.0.1:6379
 
-
     services:
       redis:
         image: redis
@@ -24,7 +23,6 @@ jobs:
         - 6379:6379
 
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v2
 
@@ -34,12 +32,10 @@ jobs:
           ruby-version: 2.7.2
           bundler-cache: true
 
-
       - name: Start mysqld
         run: sudo systemctl start mysql.service
       - name: Create database
         run: mysql -u root --password=root -e 'create database devsnest_test';
-
 
       - name: Download test coverage reporter
         working-directory: ./devsnest
