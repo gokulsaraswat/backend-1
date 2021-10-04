@@ -62,7 +62,7 @@ class User < ApplicationRecord
       return user
     end
 
-    User.create(
+    new_user = User.create(
       name: name,
       username: name,
       email: email,
@@ -71,6 +71,8 @@ class User < ApplicationRecord
       image_url: avatar,
       google_id: googleId
     )
+    CustomerioWorker.perform_async(new_user.id)
+    new_user
   end
 
   def merge_discord_user(discord_id, temp_user)
