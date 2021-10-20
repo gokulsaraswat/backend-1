@@ -63,6 +63,16 @@ ActiveRecord::Schema.define(version: 2021_09_29_104351) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "certifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "certificate_type"
+    t.string "cuid", default: "pKLip1tzxfM"
+    t.string "title", default: ""
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id", "certificate_type"], name: "index_certificates_on_user_id_and_certificate_type", unique: true
+  end
+
   create_table "colleges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
     t.string "name"
   end
