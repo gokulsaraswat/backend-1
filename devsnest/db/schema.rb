@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_29_055112) do
+ActiveRecord::Schema.define(version: 2021_11_13_044017) do
 
   create_table "algo_submissions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
     t.integer "user_id"
     t.integer "challenge_id"
     t.text "source_code"
-    t.integer "language_id"
+    t.string "language"
     t.json "test_cases"
     t.integer "total_test_cases", default: 0
     t.integer "passed_test_cases", default: 0
@@ -29,30 +29,6 @@ ActiveRecord::Schema.define(version: 2021_10_29_055112) do
     t.index ["user_id", "challenge_id"], name: "index_algo_submissions_on_user_id_and_challenge_id"
   end
 
-  create_table "algo_challenges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
-    t.string "topic"
-    t.integer "difficulty"
-    t.string "name"
-    t.text "question_body"
-    t.string "sample_test_case"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "algo_submissions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "challenge_id"
-    t.text "source_code"
-    t.integer "language_id"
-    t.json "test_cases"
-    t.integer "total_test_cases", default: 0
-    t.integer "passed_test_cases", default: 0
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.boolean "is_submitted"
-    t.index ["user_id", "challenge_id"], name: "index_algo_submissions_on_user_id_and_challenge_id"
-  end
-  
   create_table "audits", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
