@@ -10,22 +10,10 @@ class Certification < ApplicationRecord
   end
 
   def self.type_to_title(type)
-    case type
-    when 'course_dsa'
-      'DSA Course'
-    when 'course_frontend'
-      'Frontend Course'
-    when 'course_backend'
-      'Backend Course'
-    when 'course_dsa_frontend_backend'
-      'Devsnest Course'
-    when 'community_batch_leader'
-      'Batch Lead'
-    when 'community_student_mentor'
-      'Student Mentor'
-    when 'community_moderator'
-      'Community Moderator'
-    end
+    type_title_hashmap = { 'course_dsa': 'DSA Course', 'course_frontend':  'Frontend Course', 'course_backend': 'Backend Course', 'course_dsa_frontend_backend': 'Devsnest Course',
+                           'community_batch_leader': 'Batch Lead', 'community_student_mentor': 'Student Mentor', 'community_moderator': 'Community Moderator' }
+
+    type_title_hashmap[type.to_sym]
   end
 
   def self.type_to_description(user_id, type)

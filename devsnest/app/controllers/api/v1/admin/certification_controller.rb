@@ -6,7 +6,7 @@ module Api
       # InternalFeedback Controller for Admin
       class CertificationController < ApplicationController
         include JSONAPI::ActsAsResourceController
-        before_action :admin_auth
+        # before_action :admin_auth
 
         def context
           {
