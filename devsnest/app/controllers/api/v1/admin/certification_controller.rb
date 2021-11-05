@@ -13,6 +13,14 @@ module Api
             user: @current_user
           }
         end
+
+        def create
+          certificate_type = params[:data][:attributes][:certificate_type]
+          discord_ids = params[:data][:attributes][:discord_ids]
+
+          invalid_discord_ids = Certification.make_certifications(discord_ids, certificate_type)
+          api_render(201, { invalid_discord_ids: invalid_discord_ids })
+        end
       end
     end
   end

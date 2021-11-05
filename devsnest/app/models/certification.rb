@@ -9,6 +9,25 @@ class Certification < ApplicationRecord
     self.cuid = SecureRandom.base64(8).gsub('/', '_').gsub(/=+$/, '')
   end
 
+  def self.type_to_title(type)
+    case type
+    when 'course_dsa'
+      'DSA Course'
+    when 'course_frontend'
+      'Frontend Course'
+    when 'course_backend'
+      'Backend Course'
+    when 'course_dsa_frontend_backend'
+      'Devsnest Course'
+    when 'community_batch_leader'
+      'Batch Lead'
+    when 'community_student_mentor'
+      'Student Mentor'
+    when 'community_moderator'
+      'Community Moderator'
+    end
+  end
+
   def self.type_to_description(user_id, type)
     name = User.find_by(id: user_id).name
 
@@ -28,5 +47,19 @@ class Certification < ApplicationRecord
     when 'community_moderator'
       "This certificate of appreciation is awarded to #{name} for being an outstanding Community Moderator in the Devsnest Community. Their contribution is deeply valued by all the lives they have touched."
     end
+  end
+
+  def self.make_certifications(discord_ids, certificate_type)
+    invalid_discord_ids = []
+    discord_ids.each do |discord_id|
+      user = User.find_by(discord_id: discord_id)
+      begin
+        create(user_id: user.id, certificate_type: certificate_type, title: Certification.type_to_title(certificate_type),
+               cuid: SecureRandom.base64(10).gsub('/', '_').gsub(/=+$/, ''))
+      rescue StandardError
+        invalid_discord_ids << discord_id
+      end
+    end
+    invalid_discord_ids
   end
 end
