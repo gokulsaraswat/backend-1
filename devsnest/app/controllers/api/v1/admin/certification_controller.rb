@@ -15,10 +15,9 @@ module Api
         end
 
         def create
-          certificate_type = params[:data][:attributes][:certificate_type]
-          discord_ids = params[:data][:attributes][:discord_ids]
+          certification_file = params['certification_file'].tempfile
 
-          invalid_discord_ids = Certification.make_certifications(discord_ids, certificate_type)
+          invalid_discord_ids = Certification.make_certifications(certification_file)
           api_render(201, { invalid_discord_ids: invalid_discord_ids })
         end
       end

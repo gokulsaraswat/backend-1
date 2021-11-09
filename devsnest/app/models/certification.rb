@@ -10,8 +10,15 @@ class Certification < ApplicationRecord
   end
 
   def self.type_to_title(type)
-    type_title_hashmap = { 'course_dsa': 'DSA Course', 'course_frontend':  'Frontend Course', 'course_backend': 'Backend Course', 'course_dsa_frontend_backend': 'Devsnest Course',
-                           'community_batch_leader': 'Batch Lead', 'community_student_mentor': 'Student Mentor', 'community_moderator': 'Community Moderator' }
+    type_title_hashmap = {
+      'course_dsa': 'DSA Course',
+      'course_frontend': 'Frontend Course',
+      'course_backend': 'Backend Course',
+      'course_dsa_frontend_backend': 'Devsnest Course',
+      'community_batch_leader': 'Batch Lead',
+      'community_student_mentor': 'Student Mentor',
+      'community_moderator': 'Community Moderator'
+    }
 
     type_title_hashmap[type.to_sym]
   end
@@ -37,15 +44,16 @@ class Certification < ApplicationRecord
     end
   end
 
-  def self.make_certifications(discord_ids, certificate_type)
+  def self.make_certifications(certification_file)
     invalid_discord_ids = []
-    discord_ids.each do |discord_id|
-      user = User.find_by(discord_id: discord_id)
+    CSV.foreach(certification_file, headers: true) do |row|
+      certificate_type = row['certificate_type']
+      user = User.find_by(discord_id: row['discord_id'])
       begin
         create(user_id: user.id, certificate_type: certificate_type, title: Certification.type_to_title(certificate_type),
                cuid: SecureRandom.base64(10).gsub('/', '_').gsub(/=+$/, ''))
       rescue StandardError
-        invalid_discord_ids << discord_id
+        invalid_discord_ids << row['discord_id']
       end
     end
     invalid_discord_ids

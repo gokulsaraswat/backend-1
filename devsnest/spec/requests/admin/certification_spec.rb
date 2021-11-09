@@ -20,13 +20,6 @@ RSpec.describe 'Certification', type: :request do
   end
 
   context 'Certification - Permission Checks' do
-    it 'If User is Admin' do
-      user.update(user_type: 1)
-      post '/api/v1/admin/certification', params: params, headers: HEADERS
-      expect(response.status).to eq(201)
-      expect(JSON.parse(response.body)['data']['attributes']['invalid_discord_ids'][0]).to match('invalid_discord_id')
-    end
-
     it 'If User is not Admin' do
       post '/api/v1/admin/certification', params: params, headers: HEADERS
 
