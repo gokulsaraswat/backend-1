@@ -5,19 +5,11 @@ class AlgoSubmission < ApplicationRecord
   belongs_to :user
   belongs_to :challenge
 
-<<<<<<< HEAD
-  def self.add_submission(source_code, lang_id, test_case, challenge_id, mode)
-    if mode != 'run'
-      begin
-        inpf = $s3.get_object(bucket: ENV['S3_PREFIX'] + 'testcases', key: "#{challenge_id}/input/#{test_case[:input_path]}")
-        outf = $s3.get_object(bucket: ENV['S3_PREFIX'] + 'testcases', key: "#{challenge_id}/output/#{test_case[:output_path]}")
-=======
   def self.add_submission(source_code, lang, test_case, challenge_id, mode)
     if mode != 'run'
       begin
         inpf = $s3.get_object(bucket: ENV['S3_PREFIX'] + 'testcases', key: "#{challenge_id}/input/#{test_case[:input_path]}").body.read
         outf = $s3.get_object(bucket: ENV['S3_PREFIX'] + 'testcases', key: "#{challenge_id}/output/#{test_case[:output_path]}").body.read
->>>>>>> add get sample tc
       rescue StandardError
         return { 'error' => 'Something went wrong!' }
       end
@@ -30,21 +22,12 @@ class AlgoSubmission < ApplicationRecord
       "source_code": source_code,
       "language_id": Devsnest::Application::JUDGEZERO_OPTIONS[lang][:id],
       "number_of_runs": '1',
-<<<<<<< HEAD
-      "stdin": mode != 'run' ? Base64.encode64(inpf.body.read || '') : test_case,
-      "expected_output": mode != 'run' ? Base64.encode64(outf.body.read || '') : '',
-      "cpu_time_limit": Devsnest::Application::JUDGEZERO_OPTIONS[lang_id.to_i][:time_limit] || '2',
-      "cpu_extra_time": '0.5',
-      "wall_time_limit": '5',
-      "memory_limit": Devsnest::Application::JUDGEZERO_OPTIONS[lang_id.to_i][:memory_limit] || '512000',
-=======
       "stdin": mode != 'run' ? Base64.encode64(inpf || '') : test_case,
       "expected_output": mode != 'run' ? Base64.encode64(outf || '') : '',
       "cpu_time_limit": Devsnest::Application::JUDGEZERO_OPTIONS[lang][:time_limit] || '2',
       "cpu_extra_time": '0.5',
       "wall_time_limit": '5',
       "memory_limit": Devsnest::Application::JUDGEZERO_OPTIONS[lang][:memory_limit] || '512000',
->>>>>>> add get sample tc
       "stack_limit": '64000',
       "max_processes_and_or_threads": '10',
       "enable_per_process_and_thread_time_limit": false,

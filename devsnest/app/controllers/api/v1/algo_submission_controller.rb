@@ -5,11 +5,7 @@ module Api
     # algo submission controller
     class AlgoSubmissionController < ApplicationController
       include JSONAPI::ActsAsResourceController
-<<<<<<< HEAD
-      before_action :simple_auth, only: %i[create]
-=======
       before_action :user_auth, only: %i[create]
->>>>>>> add get sample tc
 
       def context
         { user: @current_user }
